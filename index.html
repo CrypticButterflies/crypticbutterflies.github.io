@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sifter Instruction Manual</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent:    #2563eb;
+      --accent-dk: #1d4ed8;
+      --bg:        #f8fafc;
+      --surface:   #ffffff;
+      --border:    #e2e8f0;
+      --text:      #1e293b;
+      --muted:     #64748b;
+      --step-bg:   #eff6ff;
+      --step-num:  #2563eb;
+      --radius:    10px;
+      --shadow:    0 2px 8px rgba(0,0,0,.08);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    /* ── Header ────────────────────────────────── */
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #fff;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -.5px;
+      margin-bottom: .4rem;
+    }
+    header p {
+      opacity: .8;
+      font-size: 1.05rem;
+    }
+
+    /* ── Layout ────────────────────────────────── */
+    main {
+      max-width: 900px;
+      margin: 2.5rem auto;
+      padding: 0 1.5rem 4rem;
+    }
+
+    /* ── Section card ──────────────────────────── */
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 2.2rem;
+      margin-bottom: 2rem;
+    }
+    section h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      border-bottom: 2px solid var(--border);
+      padding-bottom: .6rem;
+      margin-bottom: 1.4rem;
+    }
+
+    /* ── Bill of Materials ─────────────────────── */
+    .bom ol {
+      padding-left: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .bom ol > li { font-size: .97rem; }
+    .bom ol ol { margin-top: .3rem; padding-left: 1.2rem; }
+    .bom a { color: var(--accent); text-decoration: none; }
+    .bom a:hover { text-decoration: underline; }
+
+    /* ── Parts reference table ─────────────────── */
+    .parts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      margin-top: 1.6rem;
+    }
+    .parts-table th,
+    .parts-table td {
+      border: 1px solid var(--border);
+      padding: .65rem .9rem;
+      text-align: center;
+      vertical-align: middle;
+    }
+    .parts-table thead th {
+      background: #f1f5f9;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .parts-table tbody tr:nth-child(even) td { background: #f8fafc; }
+    .parts-table td.label {
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .parts-table img {
+      max-width: 110px;
+      max-height: 90px;
+      border-radius: 6px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* ── Steps ─────────────────────────────────── */
+    .step {
+      background: var(--step-bg);
+      border-left: 5px solid var(--accent);
+    }
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .step-number {
+      background: var(--accent);
+      color: #fff;
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .step-header h2 {
+      border: none;
+      padding: 0;
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+    .step-body p {
+      font-size: .97rem;
+      margin-bottom: 1.2rem;
+    }
+    .step-body strong { color: var(--accent-dk); }
+
+    /* ── Step images ───────────────────────────── */
+    .step-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: .8rem;
+    }
+    .step-images img {
+      max-width: 100%;
+      max-height: 340px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      object-fit: contain;
+      flex: 1 1 280px;
+      background: #fff;
+    }
+
+    /* ── Footer ────────────────────────────────── */
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      padding: 2rem 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.7rem; }
+      section { padding: 1.4rem 1.2rem; }
+      .step-images img { flex: 1 1 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Sifter Instruction Manual</h1>
+  <p>Solar-powered vibrating soil sifter — assembly &amp; wiring guide</p>
+</header>
+
+<main>
+
+  <!-- ══════════════════════════════════════════
+       BILL OF MATERIALS
+  ══════════════════════════════════════════ -->
+  <section class="bom">
+    <h2>Bill of Materials</h2>
+    <ol>
+      <li>Four 3-way connectors</li>
+      <li>Four 3-way elbow connectors</li>
+      <li>Four 4-way elbow connectors &mdash; <a href="https://a.co/d/6Ayg6ke" target="_blank" rel="noopener">a.co/d/6Ayg6ke</a></li>
+      <li>¾&nbsp;inch diameter PVC pipes
+        <ol>
+          <li>Six 11&nbsp;¾&nbsp;inch pipes</li>
+          <li>Four 17&nbsp;inch pipes</li>
+          <li>Eight 7&nbsp;½&nbsp;inch pipes</li>
+        </ol>
+      </li>
+      <li>Six ¼&nbsp;inch &times; 2&nbsp;inch machine screws</li>
+      <li>Four ¼&nbsp;inch &times; 1&nbsp;inch machine screws</li>
+      <li>Eight ¼&nbsp;inch wingnuts</li>
+      <li>Sifter trays — Wenses Soil Sifter, Wide Size &mdash; <a href="https://www.amazon.com/dp/B0FCF7VVDN" target="_blank" rel="noopener">amazon.com/dp/B0FCF7VVDN</a>
+        <ol>
+          <li>17.5 &times; 11.5&nbsp;inch (¼&nbsp;in mesh)</li>
+          <li>17.5 &times; 11.5&nbsp;inch (⅛&nbsp;in mesh)</li>
+        </ol>
+      </li>
+      <li>12&nbsp;volt 10&nbsp;Ah battery &mdash; <a href="https://www.amazon.com/dp/B0DJ2J6R25" target="_blank" rel="noopener">amazon.com/dp/B0DJ2J6R25</a></li>
+      <li>10&nbsp;W / 12&nbsp;volt solar panel &mdash; <a href="https://www.amazon.com/dp/B09574FVY6" target="_blank" rel="noopener">amazon.com/dp/B09574FVY6</a></li>
+      <li>12&nbsp;volt vibration motor, 3800&nbsp;RPM &mdash; <a href="https://www.amazon.com/dp/B0DDT3SSGK" target="_blank" rel="noopener">amazon.com/dp/B0DDT3SSGK</a></li>
+      <li>DC 12&nbsp;V–60&nbsp;V / 20&nbsp;A motor speed controller &mdash; <a href="https://www.amazon.com/dp/B07TSJ3XPQ" target="_blank" rel="noopener">amazon.com/dp/B07TSJ3XPQ</a></li>
+      <li>¼&nbsp;inch wooden board</li>
+    </ol>
+
+    <!-- Parts reference table -->
+    <table class="parts-table">
+      <thead>
+        <tr>
+          <th>Label</th>
+          <th>Part</th>
+          <th>Photo</th>
+          <th>Label</th>
+          <th>Part</th>
+          <th>Photo</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">A</td>
+          <td>3-way connector</td>
+          <td><img src="images/image1.png" alt="3-way connector"></td>
+          <td class="label">F</td>
+          <td>17&nbsp;inch PVC pipes</td>
+          <td><img src="images/image2.png" alt="17 inch PVC pipes"></td>
+        </tr>
+        <tr>
+          <td class="label">B</td>
+          <td>4-way elbow connector</td>
+          <td><img src="images/image3.png" alt="4-way elbow connector"></td>
+          <td class="label">G</td>
+          <td>Sifting trays</td>
+          <td><img src="images/image4.png" alt="Sifting trays"></td>
+        </tr>
+        <tr>
+          <td class="label">C</td>
+          <td>3-way elbow connector</td>
+          <td><img src="images/image5.png" alt="3-way elbow connector"></td>
+          <td class="label">H</td>
+          <td>¼&nbsp;in &times; 2&nbsp;in machine screw</td>
+          <td><img src="images/image6.png" alt="1/4 x 2 inch machine screw"></td>
+        </tr>
+        <tr>
+          <td class="label">D</td>
+          <td>11&nbsp;inch PVC pipes</td>
+          <td><img src="images/image7.png" alt="11 inch PVC pipes"></td>
+          <td class="label">I</td>
+          <td>¼&nbsp;in &times; 1&nbsp;in machine screw</td>
+          <td><img src="images/image8.png" alt="1/4 x 1 inch machine screw"></td>
+        </tr>
+        <tr>
+          <td class="label">E</td>
+          <td>7.5&nbsp;inch PVC pipes</td>
+          <td><img src="images/image9.png" alt="7.5 inch PVC pipes"></td>
+          <td class="label">J</td>
+          <td>¼&nbsp;in wingnut</td>
+          <td><img src="images/image10.png" alt="1/4 inch wingnut"></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 1
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">1</div>
+      <h2>Building the Top Frame</h2>
+    </div>
+    <div class="step-body">
+      <p>Attach two 11&nbsp;inch PVC pipes <strong>(D)</strong> and two 17&nbsp;inch PVC pipes <strong>(F)</strong> using four 3-way elbow connectors <strong>(C)</strong>. Lightly tap the connectors with a hammer to tighten the frame.</p>
+      <div class="step-images">
+        <img src="images/image11.png" alt="Top frame assembly">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 2
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">2</div>
+      <h2>Building the Middle Frame</h2>
+    </div>
+    <div class="step-body">
+      <p>Attach two 11&nbsp;inch PVC pipes <strong>(D)</strong> and two 17&nbsp;inch PVC pipes <strong>(F)</strong> using four 4-way elbow connectors <strong>(B)</strong>. Lightly tap the connectors with a hammer to tighten the frame.</p>
+      <div class="step-images">
+        <img src="images/image12.png" alt="Middle frame assembly">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 3
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">3</div>
+      <h2>Connecting the Frames</h2>
+    </div>
+    <div class="step-body">
+      <p>Connect the top frame and the middle frame using four 7.5&nbsp;inch PVC pipes <strong>(E)</strong>. Lightly tap the connectors with a hammer to tighten the frame.</p>
+      <div class="step-images">
+        <img src="images/image13.png" alt="Connecting top and middle frames">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 4
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">4</div>
+      <h2>Attaching the Legs</h2>
+    </div>
+    <div class="step-body">
+      <p>Attach four more 7.5&nbsp;inch PVC pipes <strong>(E)</strong> to the other side of the 4-way elbow connectors <strong>(B)</strong>.</p>
+      <div class="step-images">
+        <img src="images/image14.png" alt="Attaching the legs">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 5
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">5</div>
+      <h2>Building the Leg Bases</h2>
+    </div>
+    <div class="step-body">
+      <p>Build two leg bases by attaching two 3-way connectors <strong>(A)</strong> to 11&nbsp;inch pipes <strong>(D)</strong>.</p>
+      <div class="step-images">
+        <img src="images/image15.png" alt="Building leg bases">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 6
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">6</div>
+      <h2>Attaching the Leg Bases</h2>
+    </div>
+    <div class="step-body">
+      <p>Attach the leg bases to the legs of the sifter.</p>
+      <div class="step-images">
+        <img src="images/image16.png" alt="Attaching leg bases to sifter">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 7
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">7</div>
+      <h2>Cutting the Wood</h2>
+    </div>
+    <div class="step-body">
+      <p>Cut the wooden plank to <strong>9 &times; 12&nbsp;inch</strong> size.</p>
+      <div class="step-images">
+        <img src="images/image17.png" alt="Cutting the wooden plank">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 8
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">8</div>
+      <h2>Attaching the Trays to the Frame</h2>
+    </div>
+    <div class="step-body">
+      <p>Insert the tray with <strong>⅜&nbsp;in mesh</strong> on top, and the tray with <strong>¼&nbsp;in mesh</strong> on the bottom. Mark the middle of the 11&nbsp;inch PVC pipe <strong>(D)</strong> and tray. Drill one hole in each pipe through the tray using a ¼&nbsp;inch drill bit.</p>
+      <div class="step-images">
+        <img src="images/image18.png" alt="Attaching trays to frame">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 9
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">9</div>
+      <h2>Attaching the Motor</h2>
+    </div>
+    <div class="step-body">
+      <p>Place the motor in the center of the board and mark the four attachment points. Drill holes at each point using a ¼&nbsp;inch drill bit. Attach the motor to the board with the 1&nbsp;inch screws <strong>(I)</strong> and wingnuts <strong>(J)</strong>.</p>
+      <div class="step-images">
+        <img src="images/image19.png" alt="Attaching the vibration motor to the board">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 10
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">10</div>
+      <h2>Attaching the Board to the Sifter</h2>
+    </div>
+    <div class="step-body">
+      <p>Using 2&nbsp;inch screws <strong>(H)</strong>, attach the board to the PVC pipes and frames. Tighten with wingnuts.</p>
+      <div class="step-images">
+        <img src="images/image20.png" alt="Attaching the board to the sifter frame">
+        <img src="images/image21.png" alt="Board attached to sifter frame — alternate view">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 11
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">11</div>
+      <h2>Wiring the Speed Regulator</h2>
+    </div>
+    <div class="step-body">
+      <p>Attach the wires coming from the battery to the speed regulator's <strong>power terminal</strong>. Then attach the motor wires to the <strong>motor terminal</strong> on the regulator.</p>
+      <div class="step-images">
+        <img src="images/image22.png" alt="Wiring the speed regulator">
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       STEP 12
+  ══════════════════════════════════════════ -->
+  <section class="step">
+    <div class="step-header">
+      <div class="step-number">12</div>
+      <h2>Connecting the Battery</h2>
+    </div>
+    <div class="step-body">
+      <p>Connect the battery to the regulator on the input side. Ensure the <strong>positive (red wire)</strong> and <strong>negative (black wire)</strong> are connected correctly. Similarly connect the regulator output to the motor.</p>
+      <div class="step-images">
+        <img src="images/image23.png" alt="Connecting the battery to the regulator">
+        <img src="images/image24.png" alt="Final wiring view">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Sifter Instruction Manual &mdash; Solar-powered vibrating soil sifter</p>
+</footer>
+
+</body>
+</html>
